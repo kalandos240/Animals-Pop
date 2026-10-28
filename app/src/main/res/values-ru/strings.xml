@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">Animals Pop</string>
+    <string name="txt_level">Уровень %1$d</string>
+    <string name="txt_loss">Попробуем ещё!</string>
+    <string name="txt_out_of_move">Ходы закончились!</string>
+    <string name="txt_score">Очки:</string>
+    <string name="txt_setting">Настройки</string>
+    <string name="txt_hint">Подсказка:</string>
+    <string name="txt_lives_full">Полные</string>
+    <string name="txt_shop">Магазин</string>
+    <string name="txt_coins">Ещё монеты</string>
+    <string name="txt_color_ball">Радужный шар</string>
+    <string name="txt_fireball">Огненный шар</string>
+    <string name="txt_bomb">Бомба</string>
+    <string name="txt_confirm">Купить предмет?</string>
+    <string name="txt_booster">Новый бонус</string>
+    <string name="txt_exit">Выйти из игры?</string>
+    <string name="txt_error">Реклама пока недоступна.\nПовторить загрузку?</string>
+    <string name="txt_bonus">Ежедневный бонус</string>
+    <string name="txt_ad_extra_moves">Посмотреть рекламу\nза 5 ходов?</string>
+    <string name="txt_ad_more_coins">Посмотреть рекламу\nза монеты?</string>
+    <string name="txt_ad_move_lives">Посмотреть рекламу\nза жизни?</string>
+    <string name="txt_level_type_pop">Лопни пузыри</string>
+    <string name="txt_level_type_collect">Собери предметы</string>
+    <string name="txt_tutorial_shoot">Прицелься и стреляй\nпо пузырям того же цвета!</string>
+    <string name="txt_tutorial_bounce">Стреляй от стен, чтобы\nдостать верхние пузыри!</string>
+    <string name="txt_tutorial_switch">Нажми здесь, чтобы\nсменить следующий шар!</string>
+    <string name="txt_tutorial_collect_item">Лопай пузыри рядом\nс предметами и собирай их!</string>
+    <string name="txt_tutorial_color_ball">Радужный шар подходит\nк любому цвету!</string>
+    <string name="txt_tutorial_fireball">Огненный шар сжигает\nвсё на своём пути!</string>
+    <string name="txt_tutorial_bomb">Бомба взрывает\nсоседние пузыри!</string>
+    <string name="txt_tutorial_locked_bubble">Лопай соседние пузыри,\nчтобы разбить лёд!</string>
+    <string name="txt_tutorial_obstacle_bubble">Попади шаром в дерево,\nчтобы разбить его!</string>
+</resources>
