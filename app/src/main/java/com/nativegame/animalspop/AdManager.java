@@ -20,6 +20,7 @@ public final class AdManager {
     private final Handler main = new Handler(Looper.getMainLooper());
     private RewardedAdLoader loader;
     private RewardedAd ad;
+    private RewardedAd activeAd;
     private AdRewardListener listener;
     private boolean initialized, loading, showing, destroyed;
 
@@ -54,6 +55,7 @@ public final class AdManager {
         if (destroyed || showing || ad == null || listener == null
                 || activity.isFinishing() || activity.isDestroyed()) return false;
         final RewardedAd current = ad;
+        activeAd = current;
         final AdRewardListener recipient = listener;
         ad = null;
         showing = true;
@@ -70,6 +72,7 @@ public final class AdManager {
                 settled = true;
                 current.setAdEventListener(null);
                 showing = false;
+                activeAd = null;
                 // Defer until showRewardAd returns and the caller has paused the game.
                 main.post(() -> {
                     if (destroyed) return;
@@ -89,6 +92,8 @@ public final class AdManager {
         main.removeCallbacksAndMessages(null);
         if (ad != null) ad.setAdEventListener(null);
         ad = null;
+        if (activeAd != null) activeAd.setAdEventListener(null);
+        activeAd = null;
         loader = null;
         listener = null;
     }
