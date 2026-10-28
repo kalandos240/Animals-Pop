@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.OvershootInterpolator;
+import android.widget.Button;
+import android.widget.Toast;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,6 +17,8 @@ import android.widget.TextView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.nativegame.animalspop.MainActivity;
+import com.nativegame.animalspop.AdManager;
+import com.nativegame.animalspop.item.Item;
 import com.nativegame.animalspop.R;
 import com.nativegame.animalspop.ui.TransitionEffect;
 import com.nativegame.animalspop.ui.UIEffect;
@@ -30,6 +34,13 @@ import com.nativegame.nattyengine.ui.GameDialog;
 
 public class WinDialog extends GameDialog implements View.OnClickListener,
         TransitionEffect.OnTransitionListener {
+
+    private static final int WIN_COINS = 25;
+    private Button mDoubleCoins;
+    private TextView mCoinReward;
+    private boolean mRewardPending;
+    private boolean mRewardClaimed;
+    private boolean mClosed;
 
     private static final int EXPLODE_DURATION = 250;
 
@@ -72,6 +83,12 @@ public class WinDialog extends GameDialog implements View.OnClickListener,
         UIEffect.createPopUpEffect(btnNext, 10);
         UIEffect.createButtonEffect(btnNext);
 
+        mDoubleCoins = (Button) findViewById(R.id.btn_win_double_coins);
+        mCoinReward = (TextView) findViewById(R.id.txt_win_coins);
+        mDoubleCoins.setOnClickListener(this);
+        addCoins(WIN_COINS);
+        mCoinReward.setText(mParent.getString(R.string.txt_win_coins, WIN_COINS));
+
         // Init bg animation
         ImageView imageBg = (ImageView) findViewById(R.id.image_fox_bg);
         Animation animation = AnimationUtils.loadAnimation(mParent, R.anim.light_rotate);
@@ -106,10 +123,50 @@ public class WinDialog extends GameDialog implements View.OnClickListener,
     @Override
     public void onClick(View view) {
         int id = view.getId();
-        if (id == R.id.btn_win_next) {
+        if (id == R.id.btn_win_double_coins) {
+            showDoubleCoinsAd();
+        } else if (id == R.id.btn_win_next && !mRewardPending) {
             mParent.getSoundManager().playSound(MySoundEvent.BUTTON_CLICK);
             dismiss();
         }
+    }
+
+    private void addCoins(int amount) {
+        DatabaseHelper db = ((MainActivity) mParent).getDatabaseHelper();
+        db.addCoins(amount);
+    }
+
+    private void showDoubleCoinsAd() {
+        if (mClosed || mRewardPending || mRewardClaimed) return;
+        AdManager ads = ((MainActivity) mParent).getAdManager();
+        mRewardPending = true;
+        mDoubleCoins.setEnabled(false);
+        findViewById(R.id.btn_win_next).setEnabled(false);
+        ads.setListener(new AdManager.AdRewardListener() {
+            @Override public void onEarnReward() {
+                if (!mRewardPending || mRewardClaimed) return;
+                addCoins(WIN_COINS);
+                mRewardClaimed = true;
+                finishAd();
+                if (!mClosed) {
+                    mCoinReward.setText(mParent.getString(R.string.txt_win_coins, WIN_COINS * 2));
+                    mDoubleCoins.setText(R.string.txt_reward_received);
+                }
+            }
+            @Override public void onLossReward() { finishAd(); }
+        });
+        if (!ads.showRewardAd()) {
+            finishAd();
+            ads.requestAd();
+            Toast.makeText(mParent, R.string.txt_ad_unavailable, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void finishAd() {
+        mRewardPending = false;
+        if (mClosed) return;
+        mDoubleCoins.setEnabled(!mRewardClaimed);
+        findViewById(R.id.btn_win_next).setEnabled(true);
     }
 
     @Override
@@ -119,6 +176,7 @@ public class WinDialog extends GameDialog implements View.OnClickListener,
 
     @Override
     protected void onDismiss() {
+        mClosed = true;
         stopGame();
         mTransitionEffect.show();
     }
