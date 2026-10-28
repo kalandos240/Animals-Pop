@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Animals Pop</string>
-    <string name="app_version">1.1</string>
+    <string name="app_version" translatable="false">1.2.1</string>
 
     <string name="txt_level">Level %1$d</string>
     <string name="txt_loss">You loss !</string>
@@ -38,7 +38,8 @@
     <string name="txt_tutorial_locked_bubble">Break the ice by popping\n nearby bubbles !</string>
     <string name="txt_tutorial_obstacle_bubble">Smash the wood by\nhitting it with a bubble !</string>
 
-    <!-- Text of Ad code -->
-    <string name="txt_admob_banner">ca-app-pub-3940256099942544/6300978111</string>
-    <string name="txt_admob_reward">ca-app-pub-3940256099942544/5224354917</string>
+    <string name="txt_win_coins">Coins earned: %1$d</string>
+    <string name="txt_double_coins_ad">Watch ad: ×2 coins</string>
+    <string name="txt_reward_received">Reward received</string>
+    <string name="txt_ad_unavailable">Ad not ready. Try again shortly.</string>
 </resources>

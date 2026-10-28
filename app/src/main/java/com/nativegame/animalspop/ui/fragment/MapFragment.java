@@ -9,8 +9,6 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.nativegame.animalspop.MainActivity;
 import com.nativegame.animalspop.item.Item;
 import com.nativegame.animalspop.ui.TransitionEffect;
@@ -103,7 +101,6 @@ public class MapFragment extends GameFragment implements View.OnClickListener,
         // Init layout
         initLevelButton();
         initLevelStar();
-        initAd();
         loadCoin();
 
         // We only show one dialog at a time
@@ -177,12 +174,6 @@ public class MapFragment extends GameFragment implements View.OnClickListener,
                 imageStar.setVisibility(View.INVISIBLE);
             }
         }
-    }
-
-    private void initAd() {
-        AdView adView = getView().findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
     }
 
     private void loadCoin() {

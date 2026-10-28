@@ -88,6 +88,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     //-----------------------------------------------------------
     // Method of item
     //-----------------------------------------------------------
+    /** Increment in one SQL statement to avoid overwriting another earned reward. */
+    public void addCoins(int amount) {
+        if (amount <= 0) throw new IllegalArgumentException("Coin reward must be positive");
+        SQLiteDatabase db = getWritableDatabase();
+        db.execSQL("UPDATE " + ITEM_TABLE_NAME + " SET " + ITEM_COLUMN_NUM
+                + " = " + ITEM_COLUMN_NUM + " + ? WHERE " + ITEM_COLUMN_NAME + " = ?",
+                new Object[]{amount, Item.COIN});
+    }
+
     public boolean updateItemNum(String name, int num) {
         // Get writable database as we want to write data
         SQLiteDatabase db = this.getWritableDatabase();
